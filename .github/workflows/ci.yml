@@ -1,0 +1,54 @@
+name: ci
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rust: [stable]
+        template:
+          - "hello-world"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust }}
+          override: true
+          components: rustfmt, clippy
+      - name: Install Cross
+        uses: actions-rs/install@v0.1
+        with:
+          crate: cross
+          version: latest
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install Cookiecutter
+        run: pip install cookiecutter
+      - name: Create project ${{ matrix.template }}
+        run: |
+          cookiecutter --no-input templates/${{ matrix.template }}
+      - name: Run cargo fmt
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --manifest-path "my-project/Cargo.toml"
+      - name: Run cargo clippy
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: --manifest-path "my-project/Cargo.toml"
+      - name: Run build
+        working-directory: ./my-project
+        run: |
+          make build
