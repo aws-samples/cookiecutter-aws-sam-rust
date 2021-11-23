@@ -1,8 +1,8 @@
-{%- if cookiecutter.architecture == 'arm64' -%}
+{% if cookiecutter.architecture == 'arm64' -%}
 ARCH = aarch64-unknown-linux-gnu
 {%- else -%}
 ARCH = x86_64-unknown-linux-gnu
-{%- endif -%}
+{%- endif %}
 
 build:
 	cross build --release --target $(ARCH)
