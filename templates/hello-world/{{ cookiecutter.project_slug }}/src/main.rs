@@ -7,20 +7,21 @@ use lambda_http::{
 };
 
 #[tokio::main]
-async fn main() {
-    lambda_runtime::run(handler(hello_world)).await?;
+async fn main() -> Result<(), Error> {
+    lambda_runtime::run(handler(hello)).await?;
 
     Ok(())
 }
 
 /// Sample pure Lambda function
 async fn hello(
-    request: Request,
-    _: Context,
+    _request: Request,
+    _context: Context,
 ) -> Result<impl IntoResponse, Error> {
-    Response::builder()
+    Ok(Response::builder()
         .status(200)
-        .body("Hello, World!".to_string())
+        .body("Hello, World!".to_string())?
+    )
 }
 
 #[test]
