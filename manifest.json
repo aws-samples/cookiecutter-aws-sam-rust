@@ -1,0 +1,9 @@
+{
+  "rust": [
+    {
+      "directory": "hello-world",
+      "displayName": "Hello World Example",
+      "useCaseName": "Serverless API"
+    }
+  ]
+}
