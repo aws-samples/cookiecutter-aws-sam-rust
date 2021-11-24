@@ -15,6 +15,7 @@ async fn main() -> Result<(), Error> {
 async fn hello(_request: Request, _context: Context) -> Result<impl IntoResponse, Error> {
     Ok(Response::builder()
         .status(200)
+        .header("Content-Type", "text/plain")
         .body("Hello, World!".to_string())?)
 }
 
