@@ -1,9 +1,7 @@
 use lambda_http::{
     handler,
     lambda_runtime::{self, Context, Error},
-    Request,
-    Response,
-    IntoResponse,
+    IntoResponse, Request, Response,
 };
 
 #[tokio::main]
@@ -14,19 +12,21 @@ async fn main() -> Result<(), Error> {
 }
 
 /// Sample pure Lambda function
-async fn hello(
-    _request: Request,
-    _context: Context,
-) -> Result<impl IntoResponse, Error> {
+async fn hello(_request: Request, _context: Context) -> Result<impl IntoResponse, Error> {
     Ok(Response::builder()
         .status(200)
-        .body("Hello, World!".to_string())?
-    )
+        .body("Hello, World!".to_string())?)
 }
 
-#[test]
-fn test_hello() {
+#[tokio::test]
+async fn test_hello() {
     let request = Request::default();
-    let response = hello(request, Context::default()).unwrap();
-    assert_eq!(response.body, "Hello, World!");
+    let response = hello(request, Context::default())
+        .await
+        .unwrap()
+        .into_response();
+    assert_eq!(
+        response.body(),
+        &lambda_http::Body::Text("Hello, World!".to_string())
+    );
 }
