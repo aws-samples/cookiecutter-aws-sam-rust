@@ -4,6 +4,7 @@ ARCH = aarch64-unknown-linux-gnu
 ARCH = x86_64-unknown-linux-gnu
 {%- endif %}
 
+.PHONY: build
 build:
 	cross build --release --target $(ARCH)
 	rm -rf ./build
