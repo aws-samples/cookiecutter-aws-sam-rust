@@ -21,15 +21,12 @@ async fn main() -> Result<(), Error> {
     Ok(())
 }
 
-async fn put_item<C>(
-    client: &Client<C>,
+async fn put_item(
+    client: &Client,
     table_name: &str,
     request: Request,
     _context: Context,
-) -> Result<impl IntoResponse, Error>
-where
-    C: aws_smithy_client::bounds::SmithyConnector,
-{
+) -> Result<impl IntoResponse, Error> {
     // Extract path parameter from request
     let path_parameters = request.path_parameters();
     let id = match path_parameters.get("id") {
@@ -64,7 +61,7 @@ where
 mod tests {
     use super::*;
     use aws_sdk_dynamodb::{Client, Config, Credentials, Region};
-    use aws_smithy_client::test_connection::TestConnection;
+    use aws_smithy_client::{erase::DynConnector, test_connection::TestConnection};
     use aws_smithy_http::body::SdkBody;
     use std::collections::HashMap;
 
@@ -103,7 +100,8 @@ mod tests {
                 ))
                 .unwrap(),
         )]);
-        let client = Client::from_conf_conn(get_mock_config().await, conn.clone());
+        let client =
+            Client::from_conf_conn(get_mock_config().await, DynConnector::new(conn.clone()));
 
         let table_name = "test_table";
 
