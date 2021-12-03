@@ -16,6 +16,7 @@ jobs:
         rust: [stable]
         template:
           - "hello-world"
+          - "put-dynamodb"
     steps:
       - uses: actions/checkout@v2
       - name: Install Rust
