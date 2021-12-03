@@ -2,6 +2,9 @@
   "project_name": "My Project",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
   "architecture": ["x86_64", "arm64"],
-  "template": ["hello-world"],
+  "template": [
+    "hello-world",
+    "put-dynamodb"
+  ],
   "_templates_repo": "https://github.com/aws-samples/cookiecutter-aws-sam-rust"
 }
