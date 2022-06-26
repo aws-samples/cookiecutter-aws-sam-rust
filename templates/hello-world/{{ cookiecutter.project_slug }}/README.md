@@ -29,9 +29,8 @@ To deploy the application, you need the folllowing tools:
 
 * SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 * [Python 3 installed](https://www.python.org/downloads/)
-* Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
 * [Rust](https://www.rust-lang.org/)
-* [Cross](https://github.com/rust-embedded/cross)
+* [cargo-zigbuild](https://github.com/messense/cargo-zigbuild) and [Zig](https://ziglang.org/) for cross-compilation
 
 To build and deploy your application for the first time, run the following in your shell:
 
